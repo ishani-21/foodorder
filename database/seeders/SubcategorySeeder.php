@@ -385,7 +385,7 @@ class SubcategorySeeder extends Seeder
                 'categorys_id' => '15',
                 'name' => 'Cheese Chill Manchurian Roll',
                 'image' => 'Cheese Chill Manchurian Roll.jpeg',
-                'slug' => 'cheese-chill-manchuria-nroll',
+                'slug' => 'cheese-chill-manchuria-roll',
                 'status' => '1',
                 'created_at' => date('Y-m-d H:i:s'),
             ],

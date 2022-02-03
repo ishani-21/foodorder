@@ -1087,160 +1087,6 @@ No One have option to give resign
 
     </html>
 
-    @extends('layouts.app')
-    @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-5 text-center">
-                <h1>Payment Process</h1>
-                <h1>---------------------------------------</h1>
-                <form method="POST" action="{{route('paymentpage')}}" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
-                    @csrf
-
-                    @if (Session::has('success'))
-                    <div class="alert alert-success text-center">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                        <p>{{ Session::get('success') }}</p>
-                    </div>
-                    @endif
-
-                    <div class="form-group">
-                        <label for="card_owner">Card Owner</label>
-                        <input id="card_owner" type="text" class="form-control input-sm chat-input @error('card_owner') is-invalid @enderror" name="card_owner" value="{{ old('card_owner') }}" placeholder="Card Owner Name" autocomplete="card_owner" autofocus>
-                        @if ($message = Session::get('error'))
-                        <strong style="color: red;">{{ $message }}</strong>
-                        @endif
-                        @error('card_owner')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="card_number">Card number</label>
-                        <input id="card_number" type="text" class="form-control input-sm chat-input @error('card_number') is-invalid @enderror card-number" name="card_number" value="{{ old('card_number') }}" placeholder="card_number" autocomplete="card_number" autofocus>
-
-                        @error('card_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-
-                    <!-- ------------------------------------------------------------ -->
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Expiration Date</label>
-                                <input type="number" placeholder="MM" name="month" class="form-control input-sm chat-input @error('month') is-invalid @enderror card-expiry-month">
-                                @error('month')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label></label>
-                                <input type="number" placeholder="YY" name="year" class="form-control input-sm chat-input @error('year') is-invalid @enderror card-expiry-year">
-                                @error('year')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>CVV<i class="fa fa-question-circle d-inline"></i></label>
-                                <input type="number" placeholder="CVV" name="cvv" class="form-control input-sm chat-input @error('cvv') is-invalid @enderror card-cvc">
-                                @error('cvv')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <!-- --------------------------------------------------------- -->
-                    <div class="card-footer">
-                        <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
-
-                        <!-- <div class="form-group row mb-0">
-               <div class="col-md-5 offset-md-4">
-                  <button type="submit" class="btn btn-primary">
-                     {{ __('Register') }}
-                  </button>
-               </div>
-            </div> -->
-                </form>
-            </div>
-        </div>
-    </div>
-    @endsection
-    @push('js')
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
-        $(function() {
-
-            var $form = $(".require-validation");
-
-            $('form.require-validation').bind('submit', function(e) {
-                var $form = $(".require-validation"),
-                    inputSelector = ['input[type=email]', 'input[type=password]',
-                        'input[type=text]', 'input[type=file]',
-                        'textarea'
-                    ].join(', '),
-                    $inputs = $form.find('.required').find(inputSelector),
-                    $errorMessage = $form.find('div.error'),
-                    valid = true;
-                $errorMessage.addClass('hide');
-
-                $('.has-error').removeClass('has-error');
-                $inputs.each(function(i, el) {
-                    var $input = $(el);
-                    if ($input.val() === '') {
-                        $input.parent().addClass('has-error');
-                        $errorMessage.removeClass('hide');
-                        e.preventDefault();
-                    }
-                });
-
-                if (!$form.data('cc-on-file')) {
-                    e.preventDefault();
-                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                    Stripe.createToken({
-                        number: $('.card-number').val(),
-                        cvc: $('.card-cvc').val(),
-                        exp_month: $('.card-expiry-month').val(),
-                        exp_year: $('.card-expiry-year').val()
-                    }, stripeResponseHandler);
-                }
-
-            });
-
-            function stripeResponseHandler(status, response) {
-                if (response.error) {
-                    $('.error')
-                        .removeClass('hide')
-                        .find('.alert')
-                        .text(response.error.message);
-                } else {
-                    /* token contains id, last4, and card type */
-                    var token = response['id'];
-
-                    $form.find('input[type=text]').empty();
-                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-                    $form.get(0).submit();
-                }
-            }
-
-        });
-    </script>
-    @endpush
-
     // $list = $stripe->customers->all(['limit' => 3]);
     // // dd($list);
     // $id = $list->data;
@@ -1306,154 +1152,127 @@ No One have option to give resign
 
 
 
-        // ----------------------- update customer-----------------------------
-        $email = $stripe->customers->all(['email' => $request['email']]);
-        if ($request['email'] === $email->data[0]['email']) {
-        dd("match");
-        $stripe->customers->update(
-        $email->data[0]['id'],
-        [
-        'name' => $request['name'],
-        ]
-        );
-        $update_cus = PaymentCustomer::where('email', $request['email'])->get()->first();
-        $updateRow = [
-        'name' => $request['name'],
-        ];
-        $update_cus->update($updateRow);
-        }
+// ----------------------- update customer-----------------------------
+$email = $stripe->customers->all(['email' => $request['email']]);
+if ($request['email'] === $email->data[0]['email']) {
+dd("match");
+$stripe->customers->update(
+$email->data[0]['id'],
+[
+'name' => $request['name'],
+]
+);
+$update_cus = PaymentCustomer::where('email', $request['email'])->get()->first();
+$updateRow = [
+'name' => $request['name'],
+];
+$update_cus->update($updateRow);
+}
 
 
-        public function store(array $array)
-        {
-        $foods = Food::where('name', $array['name'])->get()->first();
-        $qty = 1;
-        $datas = Cart::where('name', $foods->name)->get()->first();
-        // $id = $datas->id;
-        // if ($datas) {
-        // dd("match");
-        // $q = Cart::find($id);
-        // $qty = $q->quantity + 1;
-        // } else {
-        // dd("no");
-        $cart = new Cart;
-        $cart->restaurants_id = $foods->restaurants_id;
-        $cart->name = $foods->name;
-        $cart->image = $foods->image;
-        $cart->price = $foods->price;
-        $cart->quantity = $qty;
-        $cart->total = $foods->price;
-        $cart->slug = $foods->slug;
-        $cart->save();
-        // }
+public function store(array $array)
+{
+$foods = Food::where('name', $array['name'])->get()->first();
+$qty = 1;
+$datas = Cart::where('name', $foods->name)->get()->first();
+// $id = $datas->id;
+// if ($datas) {
+// dd("match");
+// $q = Cart::find($id);
+// $qty = $q->quantity + 1;
+// } else {
+// dd("no");
+$cart = new Cart;
+$cart->restaurants_id = $foods->restaurants_id;
+$cart->name = $foods->name;
+$cart->image = $foods->image;
+$cart->price = $foods->price;
+$cart->quantity = $qty;
+$cart->total = $foods->price;
+$cart->slug = $foods->slug;
+$cart->save();
+// }
 
+// foreach ($foods as $food) {
+// $restro = $food->restaurants_id;
+// $name = $food->name;
+// $image = $food->image;
+// $price = $food->price;
 
+// $user = auth()->user()->name;
+// $slug = $food->slug;
 
-        // foreach ($foods as $food) {
-        // $restro = $food->restaurants_id;
-        // $name = $food->name;
-        // $image = $food->image;
-        // $price = $food->price;
+// }
 
-        // $user = auth()->user()->name;
-        // $slug = $food->slug;
+foreach ($foods as $food) {
+$restro = $food->restaurants_id;
+$name = $food->name;
+$image = $food->image;
+$price = $food->price;
 
-        // }
+$user = auth()->user()->name;
+$slug = $food->slug;
+}
 
+$history = new OrderHistory;
+$history->user_id = Auth::user()->id;
+$history->order_id = "null";
+$history->restaurants_id = $foods->restaurants_id;
+$history->name = $foods->name;
+$history->image = $foods->image;
+$history->price = $foods->price;
+$history->quantity = "1";
+$history->total = $foods->price;
+$history->slug = $foods->slug;
+$history->save();
+$count = Cart::where('slug', '=', $foods->slug)->count();
+return $count;
+}
 
-        foreach ($foods as $food) {
-        $restro = $food->restaurants_id;
-        $name = $food->name;
-        $image = $food->image;
-        $price = $food->price;
-
-        $user = auth()->user()->name;
-        $slug = $food->slug;
-        }
-
-        $history = new OrderHistory;
-        $history->user_id = Auth::user()->id;
-        $history->order_id = "null";
-        $history->restaurants_id = $foods->restaurants_id;
-        $history->name = $foods->name;
-        $history->image = $foods->image;
-        $history->price = $foods->price;
-        $history->quantity = "1";
-        $history->total = $foods->price;
-        $history->slug = $foods->slug;
-        $history->save();
-        $count = Cart::where('slug', '=', $foods->slug)->count();
-        return $count;
-        }
-
-
-        $user = Auth::user()->id;
-        $order = Order::where('user_id', $user)->get()->first();
-        $users = User::where('id', $order->user_id)->get()->first();
-        $orderdetail = Orderdetail::where('order_id', $order->id)->get();
-        return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
-
-        // dd($users);
-        // dd($order);
-        // $user = Auth::user()->id;
-        // $all = DB::table('orders')->latest()->first();
-        // $id = $all->id;
-        // $data = OrderHistory::where('user_id', $user)->where('order_id',$id)->get();
-        // $sum = $all->total;
-        // return view('frant.orderhistory', compact('data','sum'));
-
-
-        <!-- <html>
-   <head>
-      <title>dnbfjd</title>
-   </head>
-   <body>
-      <table>
-         <tr>
-            <th>id</th>
-            <th>order_id</th>
-            <th>restaurants_id</th>
-            <th>food_id</th>
-            <th>quantity</th>
-         </tr>
-         <tr>
-            <td>{{$order->id}}</td>
-            <td>{{$order->order_id}}</td>
-            <td>{{$order->user_id}}</td>
-            <td>{{$order->total}}</td>
-         </tr>
-         @foreach($orderdetail as $orderdetail)
-         <tr>
-            <td>{{$orderdetail->id}}</td>
-            <td>{{$orderdetail->order_id}}</td>
-            <td>{{$orderdetail->restaurants_id}}</td>
-            <td>{{$orderdetail->food_id}}</td>
-            <td>{{$orderdetail->quantity}}</td>
-         </tr>
-         @endforeach
-      </table>
-   </body>
-</html> -->
-
+$user = Auth::user()->id;
+$order = Order::where('user_id', $user)->get()->first();
+$users = User::where('id', $order->user_id)->get()->first();
+$orderdetail = Orderdetail::where('order_id', $order->id)->get();
+return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
 
 
 'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
-            'confirm_password' => 'required',
-
-            
-            'password.required' => 'Please Enter Your Password',
-            'password.regex' => 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.',
-            'confirm_password.required' => 'Please Enter Your Confirm Password',
+'confirm_password' => 'required',
 
 
+'password.required' => 'Please Enter Your Password',
+'password.regex' => 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.',
+'confirm_password.required' => 'Please Enter Your Confirm Password',
 
 
 
-* payment gateways
-1. stripe 
-2. paypal
-3. Google Pay
-4. Phone Pay
-5. Braintree
-6. Square
-7. Cashfree
+1. payment gateways
+    1. stripe 
+    2. paypal
+    3. Google Pay
+    4. Phone Pay
+    5. Braintree
+    6. Square
+    7. Cashfree
+
+2. stripe checkout 
+    - payment successfull done 
+
+    - Checkout creates a secure, Stripe-hosted payment page that lets you collect payments quickly. It works across devices and can help increase your conversion. Checkout makes it easy to build a first-class payments experience: Designed to remove friction—Real-time card validation with built-in error messaging.
+
+    1. Click your checkout button.
+    2. Fill out the payment details with the test card information: Enter 4242 4242 4242 4242 as the card number. Enter any future date for card expiry. Enter any 3-digit number for CVC. Enter any billing postal code. Click Pay.
+    3. You're redirected to your new success page
+
+3. stripe status 
+   - transaction_id
+
+4. paypal checkout
+    - The difference between PayPal Checkout and PayPal Standard is that PayPal Checkout allows users to pay money to other sites without being redirected to the PayPal website. On the other hand, PayPal Standard redirects a user to the PayPal website where he or she may carry on with making a payment.
+    - પેપાલ ચેકઆઉટ અને પેપાલ સ્ટાન્ડર્ડ વચ્ચેનો તફાવત એ છે કે પેપાલ ચેકઆઉટ વપરાશકર્તાઓને પેપાલ વેબસાઇટ પર રીડાયરેક્ટ કર્યા વિના અન્ય સાઇટ્સને નાણાં ચૂકવવાની મંજૂરી આપે છે. બીજી બાજુ, PayPal સ્ટાન્ડર્ડ વપરાશકર્તાને PayPal વેબસાઇટ પર રીડાયરેક્ટ કરે છે જ્યાં તે અથવા તેણી ચુકવણી કરવાનું ચાલુ રાખી શકે છે.
+
+    manchurian-roll
+    manchurian-nroll
+
+    cheese-chill-manchuria-nroll
+    cheese-chill-manchurian-roll
