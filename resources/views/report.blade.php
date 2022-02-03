@@ -1444,3 +1444,16 @@ No One have option to give resign
             'password.required' => 'Please Enter Your Password',
             'password.regex' => 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.',
             'confirm_password.required' => 'Please Enter Your Confirm Password',
+
+
+
+
+
+* payment gateways
+1. stripe 
+2. paypal
+3. Google Pay
+4. Phone Pay
+5. Braintree
+6. Square
+7. Cashfree

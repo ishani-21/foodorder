@@ -54,10 +54,6 @@ class PaymentController extends Controller
                     'name' => $request['card_name'],
                 ];
                 $update_customer->update($updateRow);
-                // dd($updateRow);
-                // $update_customer->name = $request->name;
-                // $update_customer->save();
-
             }
         }
 
@@ -79,7 +75,6 @@ class PaymentController extends Controller
             'source' => $request->stripeToken,
             'description' => 'Test payment from expert ishani 2'
         ]);
-
 
         Session::flash("success", "Payment successfully!!! ");
         return redirect()->route('showorder');

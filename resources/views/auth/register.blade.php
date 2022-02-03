@@ -100,12 +100,13 @@
    .footer p {
       font-size: 18px;
    }
+   
 </style>
 
 <body>
    <div class="container">
       <div class="row">
-         <div class="col-md-offset-3 col-md-8 text-center">
+         <div class="mx-auto text-center">
             <div class="form-login">
                <h3>Register</h3>
                <form method="POST" action="{{ route('register') }}" id="register">
