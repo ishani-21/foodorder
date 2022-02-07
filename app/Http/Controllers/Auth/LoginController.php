@@ -64,11 +64,11 @@ class LoginController extends Controller
         // dd($user);
         //Find User
         $authUser = User::where('email', $user->email)->first();
-        
-        if($authUser){
+
+        if ($authUser) {
             Auth::login($authUser);
             return redirect()->route('home');
-        }else{
+        } else {
             $newUser = new User();
             $newUser->name = $user->name;
             $newUser->email = $user->email;
@@ -96,11 +96,11 @@ class LoginController extends Controller
         $user = Socialite::driver('facebook')->user();
         //Find User
         $authUser = User::where('email', $user->email)->first();
-        
-        if($authUser){
+
+        if ($authUser) {
             Auth::login($authUser);
             return redirect()->route('home');
-        }else{
+        } else {
             $newUser = new User();
             $newUser->name = $user->name;
             $newUser->email = $user->email;
