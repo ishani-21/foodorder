@@ -1254,6 +1254,7 @@ return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
     5. Braintree
     6. Square
     7. Cashfree
+    8. razorpay
 
 2. stripe checkout 
     - payment successfull done 
@@ -1270,9 +1271,3 @@ return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
 4. paypal checkout
     - The difference between PayPal Checkout and PayPal Standard is that PayPal Checkout allows users to pay money to other sites without being redirected to the PayPal website. On the other hand, PayPal Standard redirects a user to the PayPal website where he or she may carry on with making a payment.
     - પેપાલ ચેકઆઉટ અને પેપાલ સ્ટાન્ડર્ડ વચ્ચેનો તફાવત એ છે કે પેપાલ ચેકઆઉટ વપરાશકર્તાઓને પેપાલ વેબસાઇટ પર રીડાયરેક્ટ કર્યા વિના અન્ય સાઇટ્સને નાણાં ચૂકવવાની મંજૂરી આપે છે. બીજી બાજુ, PayPal સ્ટાન્ડર્ડ વપરાશકર્તાને PayPal વેબસાઇટ પર રીડાયરેક્ટ કરે છે જ્યાં તે અથવા તેણી ચુકવણી કરવાનું ચાલુ રાખી શકે છે.
-
-    manchurian-roll
-    manchurian-nroll
-
-    cheese-chill-manchuria-nroll
-    cheese-chill-manchurian-roll
