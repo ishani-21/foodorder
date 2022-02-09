@@ -1271,3 +1271,52 @@ return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
 4. paypal checkout
     - The difference between PayPal Checkout and PayPal Standard is that PayPal Checkout allows users to pay money to other sites without being redirected to the PayPal website. On the other hand, PayPal Standard redirects a user to the PayPal website where he or she may carry on with making a payment.
     - પેપાલ ચેકઆઉટ અને પેપાલ સ્ટાન્ડર્ડ વચ્ચેનો તફાવત એ છે કે પેપાલ ચેકઆઉટ વપરાશકર્તાઓને પેપાલ વેબસાઇટ પર રીડાયરેક્ટ કર્યા વિના અન્ય સાઇટ્સને નાણાં ચૂકવવાની મંજૂરી આપે છે. બીજી બાજુ, PayPal સ્ટાન્ડર્ડ વપરાશકર્તાને PayPal વેબસાઇટ પર રીડાયરેક્ટ કરે છે જ્યાં તે અથવા તેણી ચુકવણી કરવાનું ચાલુ રાખી શકે છે.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Respected Authorities,
+
+Good Evening.
+
+Department : Web Development
+Date :: 09/02/2022
+
+Purpose :
+  My purpose for making SOP is to achieve the goal by the end of 2022, what should be its implementation and process.
+ 
+Goal :
+  - React js
+  - Becoming a full stack developer
+  - I can do any live project by my own self
+ 
+Procedure :
+
+ - Improve coding skills
+ - create smart code (less code and more logic)
+ - Learn Laravel all concepts with proper understanding
+ - Also Improve English and communication skills
+ - start learning about react js

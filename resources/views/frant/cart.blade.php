@@ -37,7 +37,8 @@
                               </tr>
                            </thead>
                            <tbody>
-                              {{$no=1}}
+                              <!-- {{$no=1}} -->
+                              <input type="hidden" value="{{$no=1}}">
                               @foreach($carts as $cart)
                               <tr class="parent_tr">
                                  <td>{{$no++}}</td>
