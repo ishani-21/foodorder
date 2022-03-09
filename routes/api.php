@@ -9,7 +9,7 @@ use App\Http\Controllers\API\RestaurantController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\OrderController;
-
+use App\Http\Controllers\API\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +30,15 @@ Route::get('data',[dummyAPI::class,'getData']);
 
 Route::get('list',[MenuController::class,'category']);
 
+// Register
+Route::post('registration', [RegisterController::class, 'create']);
+// Login
 Route::post('login', [LoginController::class, 'login']);
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+    // Payment
+    Route::post('payment', [PaymentController::class,'paymentPage']);
 
     Route::get('listrestaurant/{name?}',[RestaurantController::class,'list']);
     Route::post('createrestaurant', [RestaurantController::class, 'store']);
@@ -49,6 +55,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Route::post('insertorder', [OrderController::class, 'store']);
 });
-Route::post('createregister', [RegisterController::class, 'create']);
 Route::get('showregister/{id?}', [RegisterController::class, 'show']);
 Route::put('updateregister/{id}', [RegisterController::class, 'update']);

@@ -46,6 +46,9 @@ use App\Repositories\NewsRepository;
 use App\Contracts\RegisterContract;
 use App\Repositories\RegisterRepository;
 
+use App\Contracts\PaymentContract;
+use App\Repositories\PaymentRepository;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
@@ -71,6 +74,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ForgotPasswordContract::class, ForgotPasswordRepository::class);
         $this->app->bind(ChangePasswordContract::class, ChangePasswordRepository::class);
         $this->app->bind(RegisterContract::class, RegisterRepository::class);
+        $this->app->bind(PaymentContract::class, PaymentRepository::class);
 
     }
 }

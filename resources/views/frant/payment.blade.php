@@ -61,33 +61,33 @@
                      <div class='form-row row'>
                         <div class='col-xs-12 form-group required'>
                            <label class='control-label'>Name on Card</label>
-                           <input class='form-control' name="card_name" size='4' type='text'>
+                           <input class='form-control' name="card_name" value="Ishani Ranpariya" size='4' type='text'>
                         </div>
                      </div>
 
                      <div class='form-row row'>
                         <div class='col-xs-12 form-group required'>
                            <label class='control-label'>Email</label>
-                           <input class='form-control' name="email" size='4' type='text'>
+                           <input class='form-control' name="email" value="Ishani.r@elaunchinfotech.in" size='4' type='text'>
                         </div>
                      </div>
 
                      <div class='form-row row'>
                         <div class='col-xs-12 form-group card required'>
                            <label class='control-label'>Card Number</label>
-                           <input autocomplete='off' class='form-control card-number' maxlength="19" name="card_number" size='20' type='text'>
+                           <input autocomplete='off' class='form-control card-number' maxlength="19" name="card_number" value="4242 4242 4242 4242" size='20' type='text'>
                         </div>
                      </div>
 
                      <div class='form-row row'>
                         <div class='col-xs-12 col-md-4 form-group cvc required'>
-                           <label class='control-label'>CVC</label> <input autocomplete='off' class='form-control card-cvc' maxlength="3" name="cvv" placeholder='ex. 311' size='4' type='text'>
+                           <label class='control-label'>CVC</label> <input autocomplete='off' class='form-control card-cvc' maxlength="3" name="cvv" value="802" placeholder='ex. 311' size='4' type='text'>
                         </div>
                         <div class='col-xs-12 col-md-4 form-group expiration required'>
-                           <label class='control-label'>Expiration Month</label> <input class='form-control card-expiry-month' maxlength="2" placeholder='MM' size='2' type='text'>
+                           <label class='control-label'>Expiration Month</label> <input class='form-control card-expiry-month' maxlength="2" value="10" placeholder='MM' size='2' type='text'>
                         </div>
                         <div class='col-xs-12 col-md-4 form-group expiration required'>
-                           <label class='control-label'>Expiration Year</label> <input class='form-control card-expiry-year' maxlength="4" placeholder='YYYY' size='4' type='text'>
+                           <label class='control-label'>Expiration Year</label> <input class='form-control card-expiry-year' maxlength="4" value="2024" placeholder='YYYY' size='4' type='text'>
                         </div>
                      </div>
 

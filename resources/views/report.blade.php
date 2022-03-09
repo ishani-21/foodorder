@@ -1275,29 +1275,6 @@ return view('frant.orderhistorydetail', compact('order','users','orderdetail'));
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Respected Authorities,
 
 Good Evening.
@@ -1320,3 +1297,210 @@ Procedure :
  - Learn Laravel all concepts with proper understanding
  - Also Improve English and communication skills
  - start learning about react js
+
+
+
+<?php
+
+namespace App\Http\Controllers\Frant;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests\PaymentRequest;
+use Stripe;
+use Illuminate\Support\Facades\Session;
+use App\Models\PaymentCustomer;
+use App\Models\Order;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Calculation\Financial\Securities\Price;
+
+class PaymentController extends Controller
+{
+    public function paymentPage(Request $request)
+    {
+        print_r($request->all()); die();
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
+
+        // ----------------------- customer create-----------------------------
+        $email = PaymentCustomer::where('email', $request->email)->select('email')->first();
+        $name = PaymentCustomer::where('name', $request->card_name)->select('name')->first();
+        if (!$email & !$name) {
+            $create = $stripe->customers->create([
+                'name' => $request->card_name,
+                'email' => $request->email,
+            ]);
+            $id = $create->id;
+            PaymentCustomer::create([
+                'user_id' => Auth::user()->id,
+                'transaction_id' => $id,
+                'name' => $request->card_name,
+                'email' => $request->email,
+                'card_number' => $request->card_number,
+                'cvv' => $request->cvv,
+            ]);
+            // --------------------------------- Update ---------------------------
+        } else {
+            $emails = $stripe->customers->all(['email' => $request['email']]);
+            if ($request['email'] === $emails->data[0]['email']) {
+                $stripe->customers->update(
+                    $emails->data[0]['id'],
+                    [
+                        'name' => $request['card_name'],
+                    ]
+                );
+                $update_customer = PaymentCustomer::where('email', $request['email'])->get()->first();
+                $updateRow = [
+                    'name' => $request['card_name'],
+                ];
+                $update_customer->update($updateRow);
+            }
+        }
+
+        // ----------------------- customer charges -----------------------------
+        $order = Order::all()->last();
+        $charges = $stripe->charges->create([
+            "amount" => $order->total * 100,
+            "currency" => "INR",
+            "source" => $request->stripeToken,
+            "description" => "Test payment from expert ishani 2"
+        ]);
+        $b_transaction = $charges['balance_transaction'];
+        $id = PaymentCustomer::where('name', $request->card_name)->select('id')->first();
+        Payment::create([
+            'payment_customer_id' => $id->id,
+            'balance_transaction' => $b_transaction,
+            'amount' => $order->total,
+            'currency' => 'INR',
+            'source' => $request->stripeToken,
+            'description' => 'Test payment from expert ishani 2'
+        ]);
+
+        Session::flash("success", "Payment successfully!!! ");
+        return redirect()->route('showorder');
+    }
+}
+
+
+
+$language = [
+    ["name" => "Mandarin","language_code"=>"cmn"],
+    ["name" => "Spanish","language_code"=>"es"],
+    ["name" => "English","language_code"=>"en"],
+    ["name" => "Hindi","language_code"=>"hi"],
+    ["name" => "Arabic","language_code"=>"ar"],
+    ["name" => "Portuguese","language_code"=>"pt-PT"],
+    ["name" => "Bengali","language_code"=>"bn"],
+    ["name" => "Russian","language_code"=>"ru"],
+    ["name" => "Japanese","language_code"=>"ja"],
+    ["name" => "Punjabi","language_code"=>"pa"],
+    ["name" => "German","language_code"=>"de"],
+    ["name" => "Malay","language_code"=>"ms"],
+    ["name" => "Telugu","language_code"=>"te"],
+    ["name" => "Vietnamese","language_code"=>"vi"],
+    ["name" => "Korean","language_code"=>"ko"],
+    ["name" => "French","language_code"=>"fr"],
+    ["name" => "Marathi","language_code"=>"mr"],
+    ["name" => "Tamil","language_code"=>"ta"],
+    ["name" => "Urdu","language_code"=>"ur"],
+    ["name" => "Turkish","language_code"=>"tr"],
+    ["name" => "Italian","language_code"=>"it"],
+    ["name" => "Yue","language_code"=>"yue"],
+    ["name" => "Thai","language_code"=>"th"],
+    ["name" => "Gujarati","language_code"=>"gu"],
+    ["name" => "Jin","language_code"=>"cjy"],
+    ["name" => "Min","language_code"=>""],
+    ["name" => "Persian","language_code"=>"fa"],
+    ["name" => "Polish","language_code"=>"pl"],
+    ["name" => "Kannada","language_code"=>"kn"],
+    ["name" => "Xiang","language_code"=>"hsn"],
+    ["name" => "Malayalam","language_code"=>"ml"],
+    ["name" => "Sundanese","language_code"=>"su"],
+    ["name" => "Hausa","language_code"=>"ha"],
+    ["name" => "Odia","language_code"=>"or"],
+    ["name" => "Burmese","language_code"=>"my"],
+    ["name" => "Hakka","language_code"=>"hak"],
+    ["name" => "Ukrainian","language_code"=>"uk"],
+    ["name" => "Bhojpuri","language_code"=>"bho"],
+    ["name" => "Tagalog","language_code"=>"tl"],
+    ["name" => "Yoruba","language_code"=>"yo"],
+    ["name" => "Maithili","language_code"=>" mai "],
+    ["name" => "Uzbek","language_code"=>"uz"],
+    ["name" => "Sindhi","language_code"=>" sd"],
+    ["name" => "Amharic","language_code"=>"am"],
+    ["name" => "Fula","language_code"=>"ff "],
+    ["name" => "Romanian","language_code"=>" ro "],
+    ["name" => "Oromo","language_code"=>"om"],
+    ["name" => "Igbo","language_code"=>"ig"],
+    ["name" => "Azerbaijani","language_code"=>"az"],
+    ["name" => "Awadhi","language_code"=>"awa"],
+    ["name" => "Gan","language_code"=>""],
+    ["name" => "Cebuano","language_code"=>"ceb"],
+    ["name" => "Dutch","language_code"=>"nl"],
+    ["name" => "Kurdish","language_code"=>"ku"],
+    ["name" => "Serrbo-Croatian","language_code"=>"sh"],
+    ["name" => "Malagasy","language_code"=>"mg"],
+    ["name" => "Saraiki","language_code"=>"skr"],
+    ["name" => "Nepali","language_code"=>"ne"],
+    ["name" => "Sinhala","language_code"=>"si"],
+    ["name" => "Chittagonian","language_code"=>"ctg"],
+    ["name" => "Zhuang","language_code"=>"za"],
+    ["name" => "Khmer","language_code"=>"km"],
+    ["name" => "Turkmen","language_code"=>"tk"],
+    ["name" => "Assamese","language_code"=>"as"],
+    ["name" => "Madurese","language_code"=>"mad"],
+    ["name" => "Somali","language_code"=>"so"],
+    ["name" => "Marwari","language_code"=>"mwr"],
+    ["name" => "Magahi","language_code"=>"mag"],
+    ["name" => "Haryanvi","language_code"=>"bgc"],
+    ["name" => "Hungarian","language_code"=>"hu"],
+    ["name" => "Chattisgarhi","language_code"=>"hne"],
+    ["name" => "Greek","language_code"=>"el"],
+    ["name" => "Chewa","language_code"=>"ny"],
+    ["name" => "Deccan","language_code"=>"dcc"],
+    ["name" => "Aka","language_code"=>"ak"],
+    ["name" => "Kazakh","language_code"=>"kk"],
+    ["name" => "Northern Min","language_code"=>"mnc"],
+    ["name" => "Sylheti","language_code"=>"syl"],
+    ["name" => "Zulu","language_code"=>"zu"],
+    ["name" => "Czech","language_code"=>"cs"],
+    ["name" => "Kinyarwanda","language_code"=>"rw"],
+    ["name" => "Dhundhari","language_code"=>"dhd"],
+    ["name" => "Haitian Creole","language_code"=>"ht"],
+    ["name" => "Eastern Min ","language_code"=>"Min"],
+    ["name" => "Ilocano","language_code"=>"ilo"],
+    ["name" => "Quechua","language_code"=>"qu"],
+    ["name" => "Kirundi","language_code"=>"rn"],
+    ["name" => "Swedish","language_code"=>"sv"],
+    ["name" => "Hmong","language_code"=>"hmn"],
+    ["name" => "Shona","language_code"=>"sn"],
+    ["name" => "Uyghur","language_code"=>"ug"],
+    ["name" => "Hiligaynon","language_code"=>"hil"],
+    ["name" => "Mossi","language_code"=>"mos"],
+    ["name" => "Xhosa","language_code"=>"xh"],
+    ["name" => "Belarusian","language_code"=>"be"],
+    ["name" => "Balochi","language_code"=>"bal"],
+    ["name" => "Konkani","language_code"=>"kok"],
+    ["name" => "Other","language_code"=>""]
+
+   // {id: 75, name: Aka, language_code: "Aka"},
+    // {id: 44, name: Amharic, language_code: "am"},
+    // {id: 5, name: Arabic, language_code: "ar"},
+    // {id: 64, name: Assamese, language_code: "as"},
+    // {id: 50, name: Awadhi, language_code: "awa"},
+    // {id: 49, name: Azerbaijani, language_code: "az"},
+    // {id: 96, name: Balochi, language_code: "bal"},
+    // {id: 95, name: Belarusian, language_code: "be"},
+    // {id: 7, name: Bengali, language_code: "bn"},
+    // {id: 38, name: Bhojpuri, language_code: "bho"},
+    // {id: 35, name: Burmese, language_code: "my"},
+    // {id: 52, name: Cebuano, language_code: "ceb"},
+    // {id: 71, name: Chattisgarhi, language_code: "hne"},
+    // {id: 73, name: Chewa, language_code: "ny"},
+    // {id: 60, name: Chittagonian, language_code: "ctg"},
+    // {id: 80, name: Czech, language_code: "cs"},
+    // {id: 74, name: Deccan, language_code: "dcc"},
+    // {id: 82, name: Dhundhari, language_code: "dhd"},

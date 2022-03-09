@@ -17,7 +17,7 @@
         "laravel/ui": "^3.3",
         "phpmailer/phpmailer": "^6.5",
         "srmklive/paypal": "~3.0",
-        "stripe/stripe-php": "^7.100",
+        "stripe/stripe-php": "^7.114",
         "yajra/laravel-datatables": "^1.5",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
